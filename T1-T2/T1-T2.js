@@ -109,20 +109,69 @@ const library = [
 
 //Escribe aquí tu solución / escriviu aquí la vostra solució:
 /********************* EX1 */
+class magicBook {
+  constructor(title, author, genre, yearPublished, available) {
+    this.title = title;
+    this.author = author;
+    this.genre = genre;
+    this.yearPublished = yearPublished;
+    this.available = available;
+    this.magicSeal = magicBook.generateMagicSeal(title, author);
+  }
 
+  static generateMagicSeal(title, author) {
+    const seal = title.slice(0, 2) + author.slice(-2);
+    return seal.toUpperCase() + "MAGIC";
+  }
+
+  toggleAvailability() {
+    this.available = !this.available;
+  }
+}
 /********************* EX2 */
+const mysticalBooks = library.map(book => {
+  const magicalBook = new magicBook(book.title, book.author, book.genre, book.yearPublished, book.available);
+  return magicalBook.magicSeal;
+});
 
 /********************* EX3 */
-
+const fantasyBooksAfter1950 = library.filter(book => book.genre === "Fantasy" && book.yearPublished > 1950);
 /********************* EX4 */
-
+function recursiveOracle(books, index = 0) {
+  if (index >= books.length) {
+    return 0;
+  }
+  const availableCount = books[index].available ? 1 : 0;
+  return availableCount + recursiveOracle(books, index + 1);
+}
 /********************* EX5 */
+function compareBooks(books) {
+  function findMostRecentBook() {
+    return books.reduce((mostRecent, book) => (book.yearPublished > mostRecent.yearPublished ? book : mostRecent), books[0]);
+  }
 
+  function findLongestTitleBook() {
+    return books.reduce((longestTitle, book) => (book.title.length > longestTitle.title.length ? book : longestTitle), books[0]);
+  }
+
+  const mostRecentBook = findMostRecentBook();
+  const longestTitleBook = findLongestTitleBook();
+
+  return [mostRecentBook, longestTitleBook];
+}
 /********************* EX6 */
-
+function earliestPublication(...books) {
+  return books.reduce((earliest, book) => (book.yearPublished < earliest.yearPublished ? book : earliest), books[0]);
+}
 /********************* EX7 */
-
+const clonedLibrary = [...library];
+const newBook = { title: "The Alchemist", author: "Paulo Coelho", genre: "Adventure", yearPublished: 1988, available: true };
+clonedLibrary.push(newBook);
 /********************* EX8 */
+function invokeSerialization(book) {
+  return JSON.stringify(book);
+}
+const serializedBook = invokeSerialization(library[0]);
 
 /**
  * TEST
